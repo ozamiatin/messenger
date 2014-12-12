@@ -20,6 +20,10 @@ class OMClient(messaging.RPCClient):
     def callA(self, context, args):
         print 'Call methodA client side'
         self.call(context, 'methodA')
+        
+    def castB(self, context, args):
+        print 'Cast methodB client side'
+        self.cast(context, 'methodB')
     
 
 def main(argv):
@@ -32,15 +36,20 @@ def main(argv):
                     "time": time.ctime(),
                     "cast": False}
 
-    for i in range(1, 10):
+    for i in range(1, 20):
+        client.castB(test_context, {})
+
+        
+    for i in range(1, 20):
         try:
-            print 'Client call'
+            print 'Client call: ', i
             client.callA(test_context, {})
         except KeyboardInterrupt:
             break
         except Exception as e:
             print e
             raise
+
     print 'Client Quitting ...'
     return 0
 
