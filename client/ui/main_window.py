@@ -13,7 +13,7 @@ from PyQt4.QtGui import QHBoxLayout
 from PyQt4.QtGui import QWidget
 from PyQt4.QtGui import QDialog
 from PyQt4.Qt import QPushButton
-from UsersList import UsersList
+from client.ui import users_list
 import client.manager
 
 
@@ -35,12 +35,12 @@ class MainWindow(QMainWindow):
 
     def __init__(self):        
         super(MainWindow, self).__init__()
-        self.initUi()
+        self.init_ui()
         self.communicator = client.manager.CommunicationManager()
         self.loginDialog.open()
 
 
-    def initUi(self):
+    def init_ui(self):
         centralWidget = QWidget(self)
         self.historyBox = QTextEdit(centralWidget)
         self.messageBox = QTextEdit(centralWidget)
@@ -62,7 +62,7 @@ class MainWindow(QMainWindow):
         centralWidget.setLayout(layout)
 
         self.setCentralWidget(centralWidget)
-        self.usersListView = UsersList(self)
+        self.usersListView = users_list(self)
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.usersListView)
         
         self.loginDialog = LoginDialog(self)
@@ -70,7 +70,7 @@ class MainWindow(QMainWindow):
         self.connect(self.loginDialog, QtCore.SIGNAL("accepted()"), self.onRegisterUser)
 
         
-    def onRegisterUser(self):
+    def on_register_user(self):
         self.communicator.sendHere(str(self.loginDialog.nameEdit.text()))
         self.loginDialog.close()
         self.communicator.runListUpdater(self.usersListView)

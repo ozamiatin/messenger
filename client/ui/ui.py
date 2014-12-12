@@ -6,10 +6,10 @@ Created on Nov 14, 2014
 
 import sys
 from PyQt4.QtGui import QApplication
-from MainWindow import MainWindow
+from client.ui import main_window
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    wnd = MainWindow()
+    wnd = main_window()
     wnd.show()
     app.exec_()

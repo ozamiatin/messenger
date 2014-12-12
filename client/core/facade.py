@@ -1,0 +1,29 @@
+'''
+Created on Dec 12, 2014
+
+@author: ozamiatin
+'''
+
+
+class ClientFacade():
+    '''
+    Responsible to provide messages to the controller thread.
+    Each method of the facade performs call to the controller thread
+    via zmq message interface. This kind of inter-threading communication
+    was chosen for the sake of synchronization and to avoid standard
+    mess with synchronization primitives like mutexes and others.  
+    '''
+
+    def __init__(self):
+        pass
+
+
+
+class UiCallback():
+    '''
+    Reads messages from the controller thread communication interface.
+    Should be updated in UI main thread events loop.
+    '''
+    
+    def __init__(self):
+        pass
