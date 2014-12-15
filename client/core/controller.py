@@ -5,6 +5,7 @@ Created on Dec 12, 2014
 '''
 
 import zmq
+import threading
 from client.core import facade
 
 
@@ -20,11 +21,23 @@ class ClientController():
     data model updates.
     '''
 
-    def __init__(self):
-        self.ui_facade = facade.ClientFacade()
-        self.ui_callback = facade.UiCallback()
-        self.ui_handler = UiHandler(self.ui_callback)
-        self.network_handler = NetworkHandler()
+    def __init__(self, ui_callback):
+        self.context = zmq.Context()
+        self.client_facade = facade.ClientFacade(self.context)
+        self._ui_callback = ui_callback
+        self._network_handler = NetworkHandler()
+        self._controller_thread = threading.Thread(target=self._handling_loop)
+
+
+    def _handling_loop(self):
+        self._ui_handler = UiHandler(self._ui_callback, self.context)
+        print 'Client handling loop entered'
+        while True:
+            print 'waiting ...'
+            self._ui_handler.handle_notifications()
+            print 'UI notification done.'
+            self._network_handler.handle_notifications()
+            print 'Network notification done.'
 
 
     '''
@@ -37,18 +50,26 @@ class ClientController():
     Performs all actions indirectly via corresponding handlers.
     '''
     def run(self):
-        pass
+        if not self._controller_thread.is_alive():
+            self._controller_thread.start()
+
 
 
 class NetworkHandler():
-    pass
+    
+    def handle_notifications(self):
+        pass
 
 
 
 class UiHandler():
     
-    def __init__(self, ui_callback):
+    def __init__(self, ui_callback, ui_context):
         self.ui_callback = ui_callback
-        self.context = zmq.Context()        
+        self.context = ui_context
         self.ui_controller_socket = self.context.socket(zmq.PAIR)
         self.ui_controller_socket.connect(UI_CONTROLLER_SOCKET)
+
+    def handle_notifications(self):
+        msg = self.ui_controller_socket.recv_pyobj()        
+        print 'Handled UI notification: ', msg

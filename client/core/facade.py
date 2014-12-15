@@ -4,6 +4,9 @@ Created on Dec 12, 2014
 @author: ozamiatin
 '''
 
+import zmq
+import client.core.controller
+
 
 class ClientFacade():
     '''
@@ -14,7 +17,18 @@ class ClientFacade():
     mess with synchronization primitives like mutexes and others.  
     '''
 
-    def __init__(self):
+    def __init__(self, ui_context):
+        self.context = ui_context
+        self.controller_socket = self.context.socket(zmq.PAIR)
+        self.controller_socket.bind(client.core.controller.UI_CONTROLLER_SOCKET)
+
+
+    def login_click(self, client_name):
+        self.controller_socket.send_pyobj({"msg": "login",
+                                           "name": client_name})
+
+
+    def send_msg_click(self, message):
         pass
 
 
@@ -25,5 +39,13 @@ class UiCallback():
     Should be updated in UI main thread events loop.
     '''
     
-    def __init__(self):
+    def __init__(self, main_window):
+        self.main_window = main_window
+
+
+    def update_clients(self, clients_list):
+        pass
+
+
+    def update_history(self, message):
         pass

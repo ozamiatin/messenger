@@ -14,7 +14,6 @@ from PyQt4.QtGui import QWidget
 from PyQt4.QtGui import QDialog
 from PyQt4.Qt import QPushButton
 from client.ui import users_list
-import client.manager
 
 
 class LoginDialog(QDialog):
@@ -36,7 +35,6 @@ class MainWindow(QMainWindow):
     def __init__(self):        
         super(MainWindow, self).__init__()
         self.init_ui()
-        self.communicator = client.manager.CommunicationManager()
         self.loginDialog.open()
 
 
@@ -62,15 +60,21 @@ class MainWindow(QMainWindow):
         centralWidget.setLayout(layout)
 
         self.setCentralWidget(centralWidget)
-        self.usersListView = users_list(self)
+        self.usersListView = users_list.UsersList(self)
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.usersListView)
-        
+
         self.loginDialog = LoginDialog(self)
        
-        self.connect(self.loginDialog, QtCore.SIGNAL("accepted()"), self.onRegisterUser)
+        self.connect(self.loginDialog, QtCore.SIGNAL("accepted()"), self.on_register_user)
+
+
+    def set_client_facade(self, facade):
+        self.client_facade = facade
 
         
     def on_register_user(self):
-        self.communicator.sendHere(str(self.loginDialog.nameEdit.text()))
+        if self.client_facade is None:
+            raise Exception('Client Facade was not properly being set')
+        client_name = self.loginDialog.nameEdit.text()
+        self.client_facade.login_click(client_name)
         self.loginDialog.close()
-        self.communicator.runListUpdater(self.usersListView)

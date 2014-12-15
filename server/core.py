@@ -94,11 +94,11 @@ class Publisher(threading.Thread):
 
 
 class Registrator(threading.Thread):
-    
+
     def __init__(self, context):
         super(Registrator, self).__init__()
         self.context = context
-       
+
     def run(self):
         clients_socket = self.context.socket(zmq.REP)
         clients_socket.bind(cred.REGISTER_PORT)
