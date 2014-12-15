@@ -6,6 +6,8 @@ Created on Dec 12, 2014
 
 import zmq
 import threading
+import traceback
+import time
 from client.core import facade
 
 
@@ -33,11 +35,8 @@ class ClientController():
         self._ui_handler = UiHandler(self._ui_callback, self.context)
         print 'Client handling loop entered'
         while True:
-            print 'waiting ...'
             self._ui_handler.handle_notifications()
-            print 'UI notification done.'
             self._network_handler.handle_notifications()
-            print 'Network notification done.'
 
 
     '''
@@ -71,5 +70,9 @@ class UiHandler():
         self.ui_controller_socket.connect(UI_CONTROLLER_SOCKET)
 
     def handle_notifications(self):
-        msg = self.ui_controller_socket.recv_pyobj()        
-        print 'Handled UI notification: ', msg
+        done = False
+        try:
+            msg = self.ui_controller_socket.recv_pyobj(flags=zmq.NOBLOCK)
+            print 'Handled UI notification: ', msg
+        except zmq.Again as again_error:
+            time.sleep(0.01)
