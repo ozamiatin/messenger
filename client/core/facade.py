@@ -25,7 +25,7 @@ class ClientFacade():
 
     def login_click(self, client_name):
         self.controller_socket.send_pyobj({"msg": "login",
-                                           "name": client_name})
+                                           "data": client_name})
 
 
     def send_msg_click(self, message):

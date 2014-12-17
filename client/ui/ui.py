@@ -11,7 +11,7 @@ from client.core.facade import UiCallback
 from client.ui.main_window import MainWindow
 
 
-if __name__ == '__main__':
+def main(argv):
 
     app = QApplication(sys.argv)
     wnd = MainWindow()
@@ -23,4 +23,8 @@ if __name__ == '__main__':
     wnd.show()
     cntrlr.run()
 
-    app.exec_()
+    return app.exec_()
+
+
+if __name__ == '__main__':
+    sys.exit(main(sys.argv))
