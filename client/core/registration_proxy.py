@@ -5,7 +5,12 @@ Created on Dec 17, 2014
 '''
 
 import eventlet
+import time
+
 from oslo import messaging
+from oslo.config import cfg
+from common import cred
+
 
 
 class RegistrationProxy(messaging.RPCClient):
@@ -13,15 +18,27 @@ class RegistrationProxy(messaging.RPCClient):
     ''' Interface to a server Registrator entity
     '''
 
-    def __init__(self, context):
-        self.context = context
+    def __init__(self):
+        transport = messaging.get_transport(cfg.CONF,
+                                            url=cred.REGISTER_PORT)
+        target = messaging.Target(topic=cred.CLIENT_TOPIC,
+                                  server=cred.SERVER)
+        super(RegistrationProxy, self).__init__(transport, target)
 
 
     def register_client(self, client_name):
-        rep = self.call(self.context, 'on_here', client_name)
+        ctx = {"application": "oslo.im.client",
+               "client_name": client_name,
+               "time": time.ctime(),
+               "cast": False}
+        rep = self.call(ctx, 'on_here', **{'client_name': client_name})
         print 'Here sent, reply: ', rep
 
 
     def goodbye_client(self, client_name):
-        rep = self.call(self.context, 'on_leave', client_name)
+        ctx = {"application": "oslo.im.client",
+               "client_name": client_name,
+               "time": time.ctime(),
+               "cast": False}
+        rep = self.call(ctx, 'on_leave', **{'client_name': client_name})
         print 'Goodbye sent, reply: ', rep

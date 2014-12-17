@@ -4,5 +4,6 @@ cd work/om-env
 . bin/activate
 
 cd ~/workspace/messenger
-python client/ui/ui.py
+python client/console.py $1
+#python client/ui/ui.py
 #python client/omclient.py

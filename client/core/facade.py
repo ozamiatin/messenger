@@ -5,7 +5,7 @@ Created on Dec 12, 2014
 '''
 
 import zmq
-import client.core.controller
+from client.core import ui_handler
 
 
 class ClientFacade():
@@ -20,7 +20,7 @@ class ClientFacade():
     def __init__(self, ui_context):
         self.context = ui_context
         self.controller_socket = self.context.socket(zmq.PAIR)
-        self.controller_socket.bind(client.core.controller.UI_CONTROLLER_SOCKET)
+        self.controller_socket.bind(ui_handler.UI_CONTROLLER_SOCKET)
 
 
     def login_click(self, client_name):

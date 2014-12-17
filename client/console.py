@@ -4,22 +4,27 @@ Created on Nov 12, 2014
 @author: ozamiatin
 '''
 
-import sys, socket
-from common import cred
+import sys
 
-def printUsage():
-    print 'list - list users to chat with.\n'
-    print 'help - show usage help (this info).\n'
-    print 'q - terminate application\n'
-    print '[nick]: <msg> - pass msg to specified user!\n'
+from client.core import controller
+from client.core import facade
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect((cred.HOST, cred.PORT))
 
-if __name__ == '__main__':
-    print 'Welcome to messenger!\n'    
+def main(argv):
+
+    ui_callback = facade.UiCallback({})
+    cntrlr = controller.ClientController(ui_callback)
+
+    cntrlr.run()
+
+    f = cntrlr.client_facade
+    f.login_click(argv[1])
     
     while True:
-        print 'msg$>'
-        msg = sys.stdin.readline()
-        s.sendall(msg)
+        pass
+
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main(sys.argv))

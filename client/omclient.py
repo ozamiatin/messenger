@@ -27,9 +27,6 @@ class OMClient(messaging.RPCClient):
     
 
 def main(argv):
-    transport = messaging.get_transport(cfg.CONF, url=cred.REGISTER_PORT)
-    target = messaging.Target(topic='om-client',
-                              server='127.0.0.1')
     client = OMClient(transport, target)
 
     test_context = {"application": "oslo.messenger-server",

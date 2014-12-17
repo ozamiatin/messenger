@@ -30,10 +30,12 @@ class ClientsList():
     
     
     def add_client(self, client_name):
+        print 'Adding client server side: ', client_name
         self.clients[client_name] = ClientInfo(client_name,
                                                time.clock(),
                                                True)
 
 
     def goodbye_client(self, client_name):
+        print 'Removing client server side: ', client_name
         self.clients[client_name].set_status(False)

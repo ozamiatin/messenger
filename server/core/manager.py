@@ -26,8 +26,8 @@ class ClientsListManager(object):
         self.publisher = publisher.Publisher()
         self._transport = messaging.get_transport(cfg.CONF,
                                                   url=cred.REGISTER_PORT)
-        self._target = messaging.Target(topic='oslo.im.client',
-                                        server='oslo.im.server')
+        self._target = messaging.Target(topic=cred.CLIENT_TOPIC,
+                                        server=cred.SERVER)
         self._endpoints = [self.registrator]
         self.server = messaging.get_rpc_server(self._transport,
                                                self._target,

@@ -10,12 +10,11 @@ import time
 
 from client.core import facade
 from client.core import network_handler
-from client.core import registration_proxy
 from client.core import ui_handler
+from client.core.registration_proxy import RegistrationProxy
 
 from threading import Thread
 
-UI_CONTROLLER_SOCKET = 'inproc://ui_controller'
 
 
 class ClientController():
@@ -32,7 +31,7 @@ class ClientController():
         self.client_facade = facade.ClientFacade(self.context)
         self._ui_callback = ui_callback
         self._network_handler = network_handler.NetworkHandler()
-        self._registration_proxy = registration_proxy.RegistrationProxy()
+        self._registration_proxy = RegistrationProxy()
         self._controller_thread = Thread(target=self._handling_loop)
 
 

@@ -7,8 +7,10 @@ Created on Dec 17, 2014
 import zmq
 import time
 
-from client.core import controller
 from client.core import registration_proxy
+
+
+UI_CONTROLLER_SOCKET = 'inproc://ui_controller'
 
 
 class UiHandler():
@@ -20,7 +22,7 @@ class UiHandler():
         self.ui_callback = ui_callback
         self.context = ui_context
         self.ui_controller_socket = self.context.socket(zmq.PAIR)
-        self.ui_controller_socket.connect(controller.UI_CONTROLLER_SOCKET)
+        self.ui_controller_socket.connect(UI_CONTROLLER_SOCKET)
         self.reg_proxy = reg_proxy
         self._handlers = {'login': self.login,
                           'send_msg': self.send_msg}
