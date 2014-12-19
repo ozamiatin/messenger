@@ -5,30 +5,14 @@ Created on Dec 17, 2014
 '''
 
 import time
-
-
-class ClientInfo():
-    
-    def __init__(self,
-                 client_name,
-                 reg_time,
-                 is_online):
-        self.client_name = client_name
-        self.reg_time = reg_time
-        self.is_online = is_online
-
-
-    def set_status(self, is_online):
-        self.is_online = is_online
-
-
+from common.client_info import ClientInfo 
 
 class ClientsList():
-    
+
     def __init__(self):
         self.clients = {}
-    
-    
+
+
     def add_client(self, client_name):
         print 'Adding client server side: ', client_name
         self.clients[client_name] = ClientInfo(client_name,
@@ -39,3 +23,8 @@ class ClientsList():
     def goodbye_client(self, client_name):
         print 'Removing client server side: ', client_name
         self.clients[client_name].set_status(False)
+
+
+    def dump_list(self):
+        for client in self.clients.values():
+            print 'name: ', client.client_name, 'status: ', client.is_online

@@ -23,9 +23,11 @@ class Registrator(object):
         client_name = kwargs.get('client_name', None)
         print 'On here server side: ', client_name
         self.clients_list.add_client(client_name)
+        self.clients_list.dump_list()
 
 
     def on_leave(self, *args, **kwargs):
         client_name = kwargs.get('client_name', None)
         print 'Client leaves server side: ', client_name
         self.clients_list.goodbye_client(client_name)
+        self.clients_list.dump_list()

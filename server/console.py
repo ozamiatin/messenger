@@ -20,9 +20,11 @@ def main(argv):
         mgr = manager.ClientsListManager()
         mgr.run()
     except KeyboardInterrupt:
+        mgr.stop()
         print 'Quit ...'
         return 0
     except Exception:
+        mgr.stop()
         print traceback.format_exc()
         return 1
 
