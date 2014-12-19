@@ -6,9 +6,13 @@ Created on Nov 12, 2014
 
 import sys
 import traceback
+import logging
 
 from client.core import controller
 from client.core import facade
+
+logging.basicConfig(filename='oslo.im-client.log',
+                    level=logging.DEBUG)
 
 
 def main(argv):

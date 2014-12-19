@@ -6,9 +6,12 @@ Created on Nov 12, 2014
 
 import sys
 import traceback
+import logging
 
 from server.core import manager
 
+logging.basicConfig(filename='oslo.im-server.log',
+                    level=logging.DEBUG)
 
 
 def main(argv):
