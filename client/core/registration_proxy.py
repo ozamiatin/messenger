@@ -11,6 +11,8 @@ from oslo import messaging
 from oslo.config import cfg
 from common import cred
 
+import logging
+LOG = logging.getLogger(__name__)
 
 
 class RegistrationProxy(messaging.RPCClient):
@@ -32,7 +34,8 @@ class RegistrationProxy(messaging.RPCClient):
                "time": time.ctime(),
                "cast": False}
         rep = self.call(ctx, 'on_here', **{'client_name': client_name})
-        print 'Here sent, reply: ', rep
+        print 'Here sent, reply: %s' % rep
+        LOG.debug('Here sent, reply: %s' % rep)
 
 
     def goodbye_client(self, client_name):
@@ -41,4 +44,6 @@ class RegistrationProxy(messaging.RPCClient):
                "time": time.ctime(),
                "cast": False}
         rep = self.call(ctx, 'on_leave', **{'client_name': client_name})
-        print 'Goodbye sent, reply: ', rep
+        print 'Goodbye sent, reply: %s' % rep
+        LOG.debug('Goodbye sent, reply: %s' % rep)
+        

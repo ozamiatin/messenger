@@ -14,6 +14,7 @@ from client.core import facade
 logging.basicConfig(filename='oslo.im-client.log',
                     level=logging.DEBUG)
 
+LOG = logging.getLogger(__name__)
 
 def main(argv):
 
@@ -31,11 +32,13 @@ def main(argv):
 
     except KeyboardInterrupt:
         cntrlr.stop()
-        print 'Quit ...'
+        print 'Quit ... Ctrl+C'
+        LOG.debug('Quit ... Ctrl+C')
         return 0
     except Exception:
         cntrlr.stop()
         print traceback.format_exc()
+        LOG.debug(traceback.format_exc())
         return 1
 
     return 0
