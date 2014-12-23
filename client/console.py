@@ -32,12 +32,10 @@ def main(argv):
 
     except KeyboardInterrupt:
         cntrlr.stop()
-        print 'Quit ... Ctrl+C'
         LOG.debug('Quit ... Ctrl+C')
         return 0
     except Exception:
         cntrlr.stop()
-        print traceback.format_exc()
         LOG.debug(traceback.format_exc())
         return 1
 

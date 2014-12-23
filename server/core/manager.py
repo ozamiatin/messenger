@@ -44,7 +44,6 @@ class ClientsListManager(object):
 
 
     def run(self):
-        print 'Starting server ...'
         LOG.debug('Starting server ...')
         self.publisher.start()
         self.server.start()

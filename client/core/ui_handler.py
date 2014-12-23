@@ -45,8 +45,7 @@ class UiHandler():
     def handle_notifications(self):
         try:
             msg = self.ui_controller_socket.recv_pyobj(flags=zmq.NOBLOCK)
-            print 'Handled UI notification: %s' % msg
-            LOG.debug('Handled UI notification: %s' % msg)
+            LOG.debug('Handled UI notification: %s', msg)
             self._handlers[msg['msg']](msg['data'])
         except zmq.Again:
             time.sleep(0.01)

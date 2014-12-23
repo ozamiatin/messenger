@@ -14,21 +14,22 @@ LOG = logging.getLogger(__name__)
 
 class ClientsListEndpoint(object):
     def info(self, ctxt, publisher_id, event_type, payload, metadata):
-        print 'Received info ...', payload
-        LOG.debug('Client handling loop entered')
+        print ('Received info ... %s', payload)
+        LOG.debug('Received PUBLISHED LIST! %s', payload)
 
 
 class ClientsListHandler():
     
     def __init__(self):
-        self.endpoints = [ClientsListEndpoint()]
-        self.targets = [messaging.Target(topic=cred.CLIENT_TOPIC,
-                                         server=cred.CL_ENDPOINT)]
+        endpoints = [ClientsListEndpoint()]
+        targets = [messaging.Target(topic=cred.CL_ENDPOINT,
+                                    server=cred.CL_ENDPOINT)]
         self.transport = messaging.get_transport(cfg.CONF, url=cred.PUBLISHER_PORT)
         self.server = messaging.get_notification_listener(self.transport,
-                                                          self.targets,
-                                                          self.endpoints,
-                                                          executor='eventlet')
+                                                          targets,
+                                                          endpoints,
+                                                          executor='eventlet',
+                                                          pool='listener-workers')
 
     def stop(self):
         self.server.stop()

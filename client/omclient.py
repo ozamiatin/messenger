@@ -18,11 +18,9 @@ class OMClient(messaging.RPCClient):
         super(OMClient, self).__init__(transport, target)
 
     def callA(self, context, args):
-        print 'Call methodA client side'
         self.call(context, 'methodA')
         
     def castB(self, context, args):
-        print 'Cast methodB client side'
         self.cast(context, 'methodB')
     
 

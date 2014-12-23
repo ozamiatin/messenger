@@ -24,7 +24,8 @@ class Publisher(Thread):
         self.clients_list = clients_list
         self.transport = messaging.get_transport(cfg.CONF, url=cred.PUBLISHER_PORT)
         self.notifier = messaging.Notifier(transport=self.transport,
-                                           topic=cred.CLIENT_TOPIC)
+                                           publisher_id=cred.CL_ENDPOINT,
+                                           topic=cred.CL_ENDPOINT)
         self._stop = False
         super(Publisher, self).__init__()
 

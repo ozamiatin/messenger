@@ -20,7 +20,8 @@ class RegistrationProxy(messaging.RPCClient):
     ''' Interface to a server Registrator entity
     '''
 
-    def __init__(self):
+    def __init__(self, clients_list_handler):
+        self.clients_list_handler = clients_list_handler
         transport = messaging.get_transport(cfg.CONF,
                                             url=cred.REGISTER_PORT)
         target = messaging.Target(topic=cred.CLIENT_TOPIC,
@@ -34,8 +35,12 @@ class RegistrationProxy(messaging.RPCClient):
                "time": time.ctime(),
                "cast": False}
         rep = self.call(ctx, 'on_here', **{'client_name': client_name})
-        print 'Here sent, reply: %s' % rep
-        LOG.debug('Here sent, reply: %s' % rep)
+        print 'Here sent, reply: ', rep
+        LOG.debug('Here sent, reply: %s', rep)
+       
+        LOG.debug('Starting clients list handler ...')
+        self.clients_list_handler.start()
+        LOG.debug('Clients list handler started')
 
 
     def goodbye_client(self, client_name):
@@ -44,6 +49,6 @@ class RegistrationProxy(messaging.RPCClient):
                "time": time.ctime(),
                "cast": False}
         rep = self.call(ctx, 'on_leave', **{'client_name': client_name})
-        print 'Goodbye sent, reply: %s' % rep
-        LOG.debug('Goodbye sent, reply: %s' % rep)
+        print 'Goodbye sent, reply: ', rep
+        LOG.debug('Goodbye sent, reply: %s', rep)
         
