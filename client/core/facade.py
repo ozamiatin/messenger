@@ -27,6 +27,9 @@ class ClientFacade():
         self.controller_socket.send_pyobj({"msg": "login",
                                            "data": client_name})
 
+    def logout_click(self, client_name):
+        self.controller_socket.send_pyobj({"msg": "logout",
+                                           "data": client_name})        
 
     def send_msg_click(self, message):
         pass

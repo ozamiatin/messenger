@@ -7,7 +7,7 @@ Created on Dec 12, 2014
 import zmq
 
 from client.core import facade
-from client.core import network_handler
+#from client.core import network_handler
 from client.core import ui_handler
 from client.core.registration_proxy import RegistrationProxy
 
@@ -30,14 +30,14 @@ class ClientController(Thread):
         self.context = zmq.Context()
         self.client_facade = facade.ClientFacade(self.context)
         self._ui_callback = ui_callback
-        self._network_handler = network_handler.NetworkHandler()
-        self._clients_list_handler = network_handler.ClientsListHandler()
-        self._registration_proxy = RegistrationProxy(self._clients_list_handler)
+        #self._clients_list_handler = network_handler.ClientsListHandler()
+        self._registration_proxy = RegistrationProxy()
         self._stop = False
         super(ClientController, self).__init__()
 
-    
+
     def stop(self):
+        #self._clients_list_handler.stop()
         self._stop = True
 
 
@@ -55,7 +55,11 @@ class ClientController(Thread):
                                                 self.context,
                                                 self._registration_proxy)
 
+#        LOG.debug('Starting clients list handler ...')
+#        self._clients_list_handler.start()
+#        LOG.debug('Clients list handler started')
+
         LOG.debug('Client handling loop entered')
         while not self._stop:
             self._ui_handler.handle_notifications()
-            self._network_handler.handle_notifications()
+        self._ui_handler.logout()

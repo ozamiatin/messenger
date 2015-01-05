@@ -27,15 +27,18 @@ class UiHandler():
         self.ui_controller_socket.connect(UI_CONTROLLER_SOCKET)
         self.reg_proxy = reg_proxy
         self._handlers = {'login': self.login,
+                          'logout': self.logout,
                           'send_msg': self.send_msg}
 
 
     def login(self, client_name):
+        self.client_name = client_name
+        LOG.debug('Login clicked: %s', client_name)
         self.reg_proxy.register_client(client_name)
 
 
-    def logout(self, client_name):
-        self.reg_proxy.goodbye_client(client_name)
+    def logout(self):
+        self.reg_proxy.goodbye_client(self.client_name)
     
     
     def send_msg(self, message):

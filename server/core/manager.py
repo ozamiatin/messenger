@@ -31,7 +31,7 @@ class ClientsListManager(object):
         self._target = messaging.Target(topic=cred.CLIENT_TOPIC,
                                         server=cred.SERVER)
         self.clients_list = clients_list.ClientsList()
-        self.publisher = publisher.Publisher(self.clients_list)
+        #self.publisher = publisher.Publisher(self.clients_list)
         self.registrator = registrator.Registrator(self.clients_list)
         self._endpoints = [self.registrator]
         self.server = messaging.get_rpc_server(self._transport,
@@ -39,11 +39,11 @@ class ClientsListManager(object):
                                                self._endpoints)
 
     def stop(self):
-        self.publisher.stop()
+        #self.publisher.stop()
         self.server.stop()
 
 
     def run(self):
         LOG.debug('Starting server ...')
-        self.publisher.start()
+        #self.publisher.start()
         self.server.start()

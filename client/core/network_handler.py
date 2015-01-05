@@ -12,33 +12,27 @@ from common import cred
 import logging
 LOG = logging.getLogger(__name__)
 
+
 class ClientsListEndpoint(object):
-    def info(self, ctxt, publisher_id, event_type, payload, metadata):
-        print ('Received info ... %s', payload)
-        LOG.debug('Received PUBLISHED LIST! %s', payload)
+    
+    def list_updated(self, *args, **kwargs):
+        print ('Updated clients list being received!')
+        LOG.debug('Updated clients list being received!')
 
 
 class ClientsListHandler():
     
     def __init__(self):
         endpoints = [ClientsListEndpoint()]
-        targets = [messaging.Target(topic=cred.CL_ENDPOINT,
-                                    server=cred.CL_ENDPOINT)]
+        target = messaging.Target(topic=cred.CL_ENDPOINT,
+                                  server=cred.PUBLISHER_PORT)
         self.transport = messaging.get_transport(cfg.CONF, url=cred.PUBLISHER_PORT)
-        self.server = messaging.get_notification_listener(self.transport,
-                                                          targets,
-                                                          endpoints,
-                                                          executor='eventlet',
-                                                          pool='listener-workers')
+        self.server = messaging.get_rpc_server(self.transport,
+                                               target,
+                                               endpoints)
 
     def stop(self):
         self.server.stop()
 
     def start(self):
         self.server.start()
-
-
-class NetworkHandler():
-    
-    def handle_notifications(self):
-        pass

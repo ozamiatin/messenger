@@ -6,3 +6,5 @@ cd work/om-env
 cd ~/workspace/messenger
 python server/console.py
 #python server/omserver.py
+#python server/omnotifier.py
+#python server/bench_cast_srv.py

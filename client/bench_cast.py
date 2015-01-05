@@ -21,29 +21,32 @@ class OMClient(messaging.RPCClient):
         self.call(context, 'methodA')
         
     def castB(self, context, args):
-        self.cast(context, 'methodB')
+        self.cast(context, 'methodB', args)
     
 
 def main(argv):
+    transport = messaging.get_transport(cfg.CONF, url=cred.REGISTER_PORT)
+    target = messaging.Target(topic='om-client', server="127.0.0.1")
     client = OMClient(transport, target)
 
     test_context = {"application": "oslo.messenger-server",
                     "time": time.ctime(),
                     "cast": False}
 
-    for i in range(1, 20):
-        client.castB(test_context, {})
 
         
-    for i in range(1, 20):
-        try:
-            print 'Client call: ', i
-            client.callA(test_context, {})
-        except KeyboardInterrupt:
-            break
-        except Exception as e:
-            print e
-            raise
+    try:
+        for i in range(1, 1000000):
+            print 'Client cast ', i
+            client.castB(test_context, {})
+#         for i in range(1, 20):
+#             print 'Client call: ', i
+#             client.callA(test_context, {})
+    except KeyboardInterrupt:
+        print 'Ctrl+C exit'
+    except Exception as e:
+        print e
+        raise
 
     print 'Client Quitting ...'
     return 0

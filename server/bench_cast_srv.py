@@ -32,10 +32,6 @@ def main(argv):
     print "Starting server"
     try:
         server.start()
-#        server.wait()
-#        while True:
-#            print 'Server is working ...'
-#            time.sleep(1)
     except KeyboardInterrupt:
         server.stop()
     print "Quitting ..."
