@@ -11,7 +11,8 @@ import logging
 from server.core import manager
 
 logging.basicConfig(filename='oslo.im-server.log',
-                    level=logging.DEBUG)
+                    level=logging.DEBUG,
+                    format="%(asctime)s;%(levelname)s;%(message)s")
 
 LOG = logging.getLogger(__name__)
 

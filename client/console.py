@@ -12,7 +12,8 @@ from client.core import controller
 from client.core import facade
 
 logging.basicConfig(filename='oslo.im-client.log',
-                    level=logging.DEBUG)
+                    level=logging.DEBUG,
+                    format="%(asctime)s;%(levelname)s;%(message)s")
 
 LOG = logging.getLogger(__name__)
 
