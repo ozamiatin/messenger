@@ -9,10 +9,11 @@ if [ ! -d "$OM_ENV_PATH" ]; then
 	
 	. $OM_ENV_PATH/bin/activate
 #	pip install -r $WORK_PATH/oslo.messaging/requirements.txt
-	pip install -e $WORK_PATH/oslo.messaging/
+#	pip install -e $WORK_PATH/oslo.messaging/
+	pip install oslo.messaging
 else
 	. $OM_ENV_PATH/bin/activate
 fi
 
-export PYTHONPATH=$PYTHONPATH:$WORK_PATH/oslo.messaging/messenger:$WORK_PATH/oslo.messaging
+export PYTHONPATH=$PYTHONPATH:$WORK_PATH/messenger:$WORK_PATH/oslo.messaging
 
