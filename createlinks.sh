@@ -1,5 +1,5 @@
 export WORK_PATH=$1
-IM_PATH=$WORK_PATH/oslo.messaging/messenger
+IM_PATH=$WORK_PATH/messenger
 
 git clone git@github.com:openstack/oslo.messaging.git $WORK_PATH/oslo.messaging
 git clone git@github.com:ozamiatin/messenger.git $IM_PATH

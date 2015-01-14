@@ -2,6 +2,6 @@
 
 . runenv.sh ~/workmsg
 
-cd $WORK_PATH/oslo.messaging/messenger
+cd $WORK_PATH/messenger
 python server/console.py
 
