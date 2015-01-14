@@ -1,7 +1,7 @@
 #!/bin/bash
 
-. runenv.sh
+. runenv.sh ~/workmsg
 
-cd $WORK_PATH/messenger
+cd $WORK_PATH/oslo.messaging/messenger
 python client/console.py $1
 

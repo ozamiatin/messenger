@@ -8,7 +8,7 @@ if [ ! -d "$OM_ENV_PATH" ]; then
 	virtualenv $OM_ENV_PATH
 	
 	. $OM_ENV_PATH/bin/activate
-	pip install -r $WORK_PATH/oslo.messaging/requirements.txt
+#	pip install -r $WORK_PATH/oslo.messaging/requirements.txt
 	pip install -e $WORK_PATH/oslo.messaging/
 else
 	. $OM_ENV_PATH/bin/activate
