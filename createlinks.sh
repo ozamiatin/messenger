@@ -1,4 +1,4 @@
-export WORK_PATH=$1
+export WORK_PATH=~/workmsg
 IM_PATH=$WORK_PATH/messenger
 
 git clone git@github.com:openstack/oslo.messaging.git $WORK_PATH/oslo.messaging
@@ -13,5 +13,5 @@ ln -s $IM_PATH/runenv.sh
 ln -s $IM_PATH/runserver.sh
 ln -s $IM_PATH/runclient.sh
 
-. runenv.sh $1
+. runenv.sh $WORK_PATH
 
