@@ -22,12 +22,12 @@ def main(argv):
         mgr = manager.ClientsListManager()
         mgr.run()
     except KeyboardInterrupt:
-        mgr.stop()
         LOG.debug('Quit ... Ctr+C')
+        mgr.stop()
         return 0
     except Exception:
-        mgr.stop()
         LOG.debug(traceback.format_exc())
+        mgr.stop()
         return 1
 
     return 0
